@@ -8,9 +8,9 @@ from django.urls import reverse
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='profile_avatars/', blank=False, null=False)
-    bio = models.TextField(blank=True)
-    phone_number = models.CharField(max_length=20, blank=True)
+    avatar = models.ImageField(upload_to='profile_avatars/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.user.username

@@ -2,21 +2,38 @@
 <html>
 <head>
     <title>Профиль</title>
+    {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <h1>Профиль</h1>
-    <form method="post" enctype="multipart/form-data">  <!-- enctype for file upload -->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Сохранить изменения</button>
-    </form>
-    <img src="{{ user.userprofile.avatar.url }}" alt="Аватар" width="100">
 
-    <form method="post" action="{% url 'polls:delete_profile' %}">
-        {% csrf_token %}
-        <button type="submit">Удалить профиль</button>
-    </form>
+    {% if profile %} {#Check if profile exists#}
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}" alt="Аватар" width="200">
+        {% else %}
+            <img src="{% static 'images/default_avatar.jpg' %}" alt="Default Аватар" width="200">
+        {% endif %}
+
+        <p>Name: {{ profile.user.get_full_name }}</p>
+        <p>Email: {{ profile.user.email }}</p>
+        <p>Bio: {{ profile.bio }}</p>
+        <p>Phone: {{ profile.phone_number }}</p>
+
+        <form method="post" enctype="multipart/form-data" action="{% url 'polls:edit_profile' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить изменения</button>
+        </form>
+
+        <form method="post" action="{% url 'polls:delete_profile' %}">
+            {% csrf_token %}
+            <button type="submit">Удалить профиль</button>
+        </form>
+    {% else %}
+        <p>Profile not found.</p> {#Handle case where profile doesn't exist#}
+    {% endif %}
+
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}

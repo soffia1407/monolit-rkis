@@ -13,12 +13,18 @@ from django.contrib import messages
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
+        form = UserRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'New Account Created: {username}')
-            return redirect('polls:login')
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Registration successful!')
+            return redirect('polls:profile', user_id=user.id)
+        else:
+            messages.error(request, 'Registration failed. Please correct the errors below.')
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'Field "{field}": {error}')
+            return render(request, 'polls/register.html', {'form': form})
     else:
         form = UserRegistrationForm()
     return render(request, 'polls/register.html', {'form': form})
