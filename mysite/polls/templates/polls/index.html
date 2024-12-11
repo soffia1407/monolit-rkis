@@ -1,12 +1,17 @@
-{% if latest_question_list %}
-<ul>
-    {% for question in latest_question_list %}
-    <li><a href="{% url 'polls:detail' question.id %}">{{question.question_text}}</a> </li>
-    {% endfor %}
-</ul>
-    {% else %}
-     <p>
-         Нет вопросов!
-     </p>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+<h1>Добро пожаловать на опрос!</h1>
 
+<a href="{% url 'polls:register' %}">Регистрация</a>
+<a href="{% url 'polls:login' %}">Вход</a>
+
+{% if latest_question_list %}
+    <h2>Последние вопросы:</h2>
+    <ul>
+        {% for question in latest_question_list %}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Нет вопросов!</p>
 {% endif %}
