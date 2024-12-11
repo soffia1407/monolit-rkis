@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Профиль</title>
+</head>
+<body>
+    <h1>Профиль</h1>
+    <form method="post" enctype="multipart/form-data">  <!-- enctype for file upload -->
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить изменения</button>
+    </form>
+    <img src="{{ user.userprofile.avatar.url }}" alt="Аватар" width="100">
+
+    <form method="post" action="{% url 'polls:delete_profile' %}">
+        {% csrf_token %}
+        <button type="submit">Удалить профиль</button>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
