@@ -12,9 +12,9 @@ from django.contrib import messages
 from .forms import QuestionForm
 
 @login_required
-def create_question(request):
+def create_question(request): #Создаем опрос
     if request.method == 'POST':
-        form = QuestionForm(request.POST, request.FILES) #Handle FILES now
+        form = QuestionForm(request.POST, request.FILES)
         if form.is_valid():
             question = form.save(commit=False)
             question.author = request.user
@@ -23,7 +23,6 @@ def create_question(request):
             return redirect('polls:index')
         else:
             messages.error(request, 'Ошибка создания вопроса. Пожалуйста, проверьте данные.')
-            # Optionally, provide more detailed error messages:
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'Field "{field}": {error}')
