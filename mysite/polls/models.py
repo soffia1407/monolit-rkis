@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='profile_avatars/', blank=True, null=True)
@@ -30,8 +29,7 @@ class Question(models.Model):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
     def __str__(self):
-        return self.question_text
-
+        return self.title #Fixed this line
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

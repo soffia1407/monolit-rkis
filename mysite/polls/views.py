@@ -9,8 +9,6 @@ from django.urls import reverse
 from django.views import generic
 from .forms import UserRegistrationForm, UserProfileForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from .forms import QuestionForm
 
 @login_required
@@ -43,7 +41,7 @@ def authenticated_index(request):
         'questions': questions,
         'user': request.user,
     }
-    return render(request, 'polls/authenticated_index.html', context)
+    return render(request, 'polls/authenticated_index.html', {'user': request.user})
 
 
 def register(request):
@@ -53,9 +51,11 @@ def register(request):
             user = form.save()
             login(request, user)
             messages.success(request, 'Registration successful!')
-            return redirect('polls:profile', user_id=user.id)
+            print("Message added successfully!")
+            return redirect('polls:authenticated_index')
         else:
             messages.error(request, 'Registration failed. Please correct the errors below.')
+            print("Form is invalid:", form.errors)
             for field, errors in form.errors.items():
                 for error in errors:
                     messages.error(request, f'Field "{field}": {error}')
@@ -74,11 +74,11 @@ def index(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('polls:index')
+            return redirect('polls:authenticated_index')
     else:
         form = AuthenticationForm()
     return render(request, 'polls/login.html', {'form': form})

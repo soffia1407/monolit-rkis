@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import UserProfile
+from django.contrib.auth.forms import UserCreationForm
 from .models import Question
 
 
@@ -16,11 +17,11 @@ class QuestionForm(forms.ModelForm):
 class UserRegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput, label="Confirm Password")
-    avatar = forms.ImageField(required=True)
+    avatar = forms.ImageField(required=False)
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'password2')
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', 'password2', 'avatar')
 
     def clean_password2(self):
         cd = self.cleaned_data
