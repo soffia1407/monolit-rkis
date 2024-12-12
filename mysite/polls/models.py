@@ -20,7 +20,10 @@ class UserProfile(models.Model):
 
 
 class Question(models.Model):
-    question_text = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    text = models.TextField()
+    image = models.ImageField(upload_to='question_images/', blank=True, null=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     pub_date = models.DateTimeField('date published')
 
     def was_published_recently(self):

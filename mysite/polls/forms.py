@@ -1,6 +1,16 @@
 from django import forms
 from django.contrib.auth.models import User
 from .models import UserProfile
+from .models import Question
+
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['title', 'text', 'image']
+        widgets = {
+            'text': forms.Textarea(attrs={'rows': 4, 'cols': 50}),
+        }
 
 
 class UserRegistrationForm(forms.ModelForm):

@@ -9,6 +9,41 @@ from django.urls import reverse
 from django.views import generic
 from .forms import UserRegistrationForm, UserProfileForm
 from django.contrib import messages
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .forms import QuestionForm
+
+@login_required
+def create_question(request):
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, request.FILES) #Handle FILES now
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+            messages.success(request, 'Вопрос успешно создан!')
+            return redirect('polls:index')
+        else:
+            messages.error(request, 'Ошибка создания вопроса. Пожалуйста, проверьте данные.')
+            # Optionally, provide more detailed error messages:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f'Field "{field}": {error}')
+            return render(request, 'polls/create_question.html', {'form': form})
+    else:
+        form = QuestionForm()
+    return render(request, 'polls/create_question.html', {'form': form})
+
+
+@login_required
+def authenticated_index(request):
+    questions = Question.objects.all()
+
+    context = {
+        'questions': questions,
+        'user': request.user,
+    }
+    return render(request, 'polls/authenticated_index.html', context)
 
 
 def register(request):
@@ -28,6 +63,14 @@ def register(request):
     else:
         form = UserRegistrationForm()
     return render(request, 'polls/register.html', {'form': form})
+
+def index(request):
+    if request.user.is_authenticated:
+        return redirect('polls:authenticated_index')
+    else:
+        questions = Question.objects.all()
+        context = {'questions': questions}
+        return render(request, 'polls/index.html', context)
 
 def login_view(request):
     if request.method == 'POST':

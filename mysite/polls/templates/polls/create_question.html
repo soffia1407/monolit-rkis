@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load messages %}
+
+{% block content %}
+    <h1>Создать вопрос</h1>
+    <form method="post" enctype="multipart/form-data">  {# enctype is crucial for file uploads #}
+        {% csrf_token %}
+        {{ form.title.as_p }}
+        {{ form.text.as_p }}
+        {{ form.image.as_p }}  {# Include the image field from the form #}
+        <button type="submit">Создать</button>
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endblock %}
