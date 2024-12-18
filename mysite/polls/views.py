@@ -35,12 +35,11 @@ def create_question(request): #Создаем опрос
 @login_required
 def authenticated_index(request):
     questions = Question.objects.all()
-
     context = {
-        'questions': questions,
+        'questions': questions,  # Передаём вопросы в шаблон
         'user': request.user,
     }
-    return render(request, 'polls/authenticated_index.html', {'user': request.user})
+    return render(request, 'polls/authenticated_index.html', context)
 
 
 def register(request):
