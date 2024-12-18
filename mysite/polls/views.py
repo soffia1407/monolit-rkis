@@ -111,7 +111,7 @@ def delete_profile(request):
 def logout_view(request):
     logout(request)
     messages.info(request, 'Logged Out Successfully')
-    return redirect('polls:login')
+    return redirect('polls:index')
 
 
 class IndexView(generic.ListView):
