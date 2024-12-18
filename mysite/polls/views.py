@@ -10,6 +10,8 @@ from django.views import generic
 from .forms import UserRegistrationForm, UserProfileForm
 from django.contrib import messages
 from .forms import QuestionForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 @login_required
 def create_question(request): #Создаем опрос
@@ -83,17 +85,19 @@ def login_view(request):
 
 
 @login_required
-def user_profile(request):
+def user_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
     if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        form = UserProfileForm(request.POST, request.FILES, instance=user.userprofile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile Updated Successfully')
-            return redirect('polls:profile')
+            return redirect('polls:profile', user_id=user_id)
     else:
-        form = UserProfileForm(instance=request.user.userprofile)
-    return render(request, 'polls/profile.html', {'form': form})
+        form = UserProfileForm(instance=user.userprofile)
 
+    return render(request, 'polls/profile.html', {'form': form, 'user': user})
 
 @login_required
 def delete_profile(request):
