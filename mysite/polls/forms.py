@@ -6,6 +6,8 @@ from .models import Question  # Импортируем модель Question
 
 
 class QuestionForm(forms.ModelForm):  # Форма для создания вопроса
+    title =  forms.CharField(label='Question title')
+
     class Meta:  # Внутренний класс с настройками формы
         model = Question  # Привязываем форму к модели Question
         fields = ['title', 'text', 'image']  # Указываем поля, которые будут в форме

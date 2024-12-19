@@ -1,14 +1,12 @@
 {% extends 'polls/base.html' %}  {# Наследуем базовый шаблон #}
 {% load static %}
-{% load messages %}
 
 {% block content %}
     <h1>Создать вопрос</h1>
     <form method="post" enctype="multipart/form-data">  {# Форма для загрузки данных + картинки (enctype="multipart/form-data": Обязательно для загрузки файлов (картинок).)#}
         {% csrf_token %}  {# Защита от CSRF атак #}
-        {{ form.title.as_p }}  {# Поле для заголовка вопроса #}
-        {{ form.text.as_p }}   {# Поле для текста вопроса #}
-        {{ form.image.as_p }}  {# Поле для загрузки картинки (as_p: Вывод полей формы как абзацы) #}
+        {{ form.as_p }}  {# Поле для заголовка вопроса #}
+
         <button type="submit">Создать</button>
     </form>
     {% if messages %}  {# if messages: Показывает сообщения (например, об успехе или ошибке).#}

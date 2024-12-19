@@ -26,7 +26,7 @@ class Question(models.Model):  # Модель для вопроса
     text = models.TextField()
     image = models.ImageField(upload_to='question_images/', blank=True, null=True)  # Картинка вопроса, может быть пустой
     author = models.ForeignKey(User, on_delete=models.CASCADE) # Автор вопроса (связь с моделью User), если юзер удаляется то вопрос тоже
-    pub_date = models.DateTimeField('date published')
+    pub_date = models.DateTimeField('date published', default=timezone.now)
 
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1) # Проверяет, был ли вопрос опубликован недавно (за последние 24 часа)
