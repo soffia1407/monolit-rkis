@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout  # Функции для аутентификации
 from django.contrib.auth.decorators import login_required  # Декоратор для защиты страниц
 from django.contrib.auth.forms import AuthenticationForm  # Готовая форма для входа
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect  # Функции для рендеринга страниц
 from django.http import HttpResponse, HttpResponseRedirect  # HTTP-ответы
 from .models import Question, Choice, UserProfile  # Наши модели
