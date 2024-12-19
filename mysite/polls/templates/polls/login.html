@@ -7,9 +7,9 @@
 </head>
 <body>
     <h1>Вход</h1>
-    <form method="post" action="{% url 'polls:login' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
+    <form method="post" action="{% url 'polls:login' %}">  {# action=url 'polls:login' : Отправляет форму на URL входа.#}
+        {% csrf_token %}  {# Защита от CSRF #}
+        {{ form.as_p }}  {# Выводим поля формы #}
         <button type="submit">Войти</button>
     </form>
     {% if messages %}

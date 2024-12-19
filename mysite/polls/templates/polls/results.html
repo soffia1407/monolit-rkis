@@ -1,8 +1,10 @@
+{# results.html (страница с результатами голосования) #}
 {% load static %}
-<h1>{{ question.question_text }}</h1>
+<h1>{{ question.question_text }}</h1>   {# Выводим текст вопроса #}
 <ul>
-    {% for choice in question.choice_set.all %}
+    {% for choice in question.choice_set.all %}  {# Цикл по вариантам ответа #}
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{choice.votes|pluralize}}</li>
+    {# Выводим текст варианта ответа и количество голосов #}
     {% endfor %}
 </ul>
 <a href="{% url 'polls:detail'  question.id %}">выбрать еще раз? </a>

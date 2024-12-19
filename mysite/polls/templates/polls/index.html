@@ -1,15 +1,16 @@
+{#index.html (главная страница для неавторизованных пользователей)#}
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 <h1>Добро пожаловать на опрос!</h1>
 
-<a href="{% url 'polls:register' %}">Регистрация</a>
+<a href="{% url 'polls:register' %}">Регистрация</a>  {# Ссылка на регистрацию #}
 <a href="{% url 'polls:login' %}">Вход</a>
 
-{% if latest_question_list %}
-    <h2>Последние вопросы:</h2>
+{% if latest_question_list %}  {# Проверка есть ли вопросы #}
+    <h2>Последние вопросы:</h2>  {# Заголовок если есть вопросы #}
     <ul>
-        {% for question in latest_question_list %}
-            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+        {% for question in latest_question_list %}  {# Цикл по списку последних вопросов #}
+            <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>  {# Вывод каждого вопроса как ссылку #}
         {% endfor %}
     </ul>
 {% else %}

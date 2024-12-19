@@ -8,10 +8,10 @@
 <body>
     <h1>Профиль</h1>
 
-    {% if profile %} {#Check if profile exists#}
-        {% if profile.avatar %}
+     {% if profile %}  {# Проверка существования профиля #}
+        {% if profile.avatar %}  {# Если есть аватар, то выводим его #}
             <img src="{{ profile.avatar.url }}" alt="Аватар" width="200">
-        {% else %}
+        {% else %}  {# Если нет, то выводим дефолтный аватар #}
             <img src="{% static 'images/default_avatar.jpg' %}" alt="Default Аватар" width="200">
         {% endif %}
 
@@ -20,9 +20,9 @@
         <p>Bio: {{ profile.bio }}</p>
         <p>Phone: {{ profile.phone_number }}</p>
 
-        <form method="post" enctype="multipart/form-data" action="{% url 'polls:edit_profile' %}">
-            {% csrf_token %}
-            {{ form.as_p }}
+        <form method="post" enctype="multipart/form-data" action="{% url 'polls:edit_profile' %}">  {# enctype="multipart/form-data": Для загрузки аватара. #}
+            {% csrf_token %}  {# Защита от CSRF #}
+            {{ form.as_p }}  {# Выводим поля формы #}
             <button type="submit">Сохранить изменения</button>
         </form>
 

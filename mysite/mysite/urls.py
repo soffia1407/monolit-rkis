@@ -13,11 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
+from django.contrib import admin # Импортируем админку Django. Это как панель управления сайтом для админов
+from django.urls import path, include # Импортируем функции для работы с URL-ами
 
-urlpatterns = [
-    path('', include('polls.urls')),
-    path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),
-]
+urlpatterns = [ # Создаём список всех URL-ов нашего сайта
+    path('', include('polls.urls')), # Если пользователь заходит на главную страницу (''),то перенаправляем его в файл urls.py приложения polls
+    path('admin/', admin.site.urls), # Это URL для админки. Когда заходим на /admin, попадаем в панель управления Django
+    path('accounts/', include('django.contrib.auth.urls')), # Это URL для аутентификации.
